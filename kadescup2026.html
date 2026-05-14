@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KADES CUP 2026</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #fbbf24;
+            --bg: #f1f5f9;
+            --white: #ffffff;
+            --group-a: #1e3a8a;
+            --group-b: #b21f1f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 10px;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 { margin: 0; letter-spacing: 2px; font-size: 1.8rem; }
+        header p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
+
+        /* Navigasi Tab */
+        .tabs {
+            display: flex;
+            background: #e2e8f0;
+            padding: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #64748b;
+            transition: 0.3s;
+            border-radius: 8px;
+        }
+
+        .tab-btn.active {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .content-section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .content-section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Tabel Klasemen */
+        .group-header {
+            color: white;
+            padding: 12px 15px;
+            margin-top: 10px;
+            border-radius: 8px 8px 0 0;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        th { background: #f8fafc; padding: 12px; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 12px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .t-left { text-align: left; }
+        .pts-bold { font-weight: bold; color: var(--primary); }
+
+        /* Hasil Pertandingan Per Grup */
+        .match-box {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .match-box-header {
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: white;
+        }
+
+        .match-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .match-item:last-child { border-bottom: none; }
+
+        .team { width: 35%; font-weight: 600; font-size: 0.95rem; }
+        .score-wrap {
+            width: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .score-num {
+            background: #1e293b;
+            color: var(--accent);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        .vs-text { font-size: 0.7rem; color: #94a3b8; font-weight: normal; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>KADES CUP 2026</h1>
+        <p>Klasemen, Jadwal & Hasil Pertandingan Resmi</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'klasemen')">KLASEMEN</button>
+        <button class="tab-btn" onclick="openTab(event, 'jadwal')">JADWAL</button>
+        <button class="tab-btn" onclick="openTab(event, 'hasil')">HASIL</button>
+    </div>
+
+    <!-- TAB KLASEMEN -->
+    <div id="klasemen" class="content-section active">
+        <div class="group-header" style="background: var(--group-a)">GRUP A</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th class="t-left">Tim</th>
+                    <th>M</th>
+                    <th>S</th>
+                    <th>K</th>
+                    <th>Pts</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-a"></tbody>
+        </table>
+
+        <div class="group-header" style="background: var(--group-b)">GRUP B</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th class="t-left">Tim</th>
+                    <th>M</th>
+                    <th>S</th>
+                    <th>K</th>
+                    <th>Pts</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-b"></tbody>
+        </table>
+    </div>
+
+    <!-- TAB JADWAL -->
+    <div id="jadwal" class="content-section">
+        <div class="match-box">
+            <div class="match-box-header" style="background: var(--group-a)">JADWAL GRUP A</div>
+            <div class="match-item">
+                <span class="team t-left">RT 001</span>
+                <span class="vs-text">16:00 WIB</span>
+                <span class="team" style="text-align:right">RT 002</span>
+            </div>
+        </div>
+        <div class="match-box">
+            <div class="match-box-header" style="background: var(--group-b)">JADWAL GRUP B</div>
+            <div class="match-item">
+                <span class="team t-left">RT 007</span>
+                <span class="vs-text">19:00 WIB</span>
+                <span class="team" style="text-align:right">RT 008</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB HASIL -->
+    <div id="hasil" class="content-section">
+        <!-- Hasil Satu Blok Grup A -->
+        <div class="match-box">
+            <div class="match-box-header" style="background: var(--group-a)">HASIL PERTANDINGAN GRUP A</div>
+            <div class="match-item">
+                <div class="team t-left">RT 003</div>
+                <div class="score-wrap">
+                    <div class="score-num">2</div>
+                    <span class="vs-text">-</span>
+                    <div class="score-num">0</div>
+                </div>
+                <div class="team" style="text-align:right">RT 004</div>
+            </div>
+        </div>
+
+        <!-- Hasil Satu Blok Grup B -->
+        <div class="match-box">
+            <div class="match-box-header" style="background: var(--group-b)">HASIL PERTANDINGAN GRUP B</div>
+            <div class="match-item">
+                <div class="team t-left">RT 009</div>
+                <div class="score-wrap">
+                    <div class="score-num">1</div>
+                    <span class="vs-text">-</span>
+                    <div class="score-num">1</div>
+                </div>
+                <div class="team" style="text-align:right">RT 010</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DATA TIM (Silakan ubah angka di sini)
+    const dataA = [
+        { n: "RT 001", m: 0, s: 0, k: 0, p: 0 },
+        { n: "RT 002", m: 0, s: 0, k: 0, p: 0 },
+        { n: "RT 003", m: 1, s: 0, k: 0, p: 3 },
+        { n: "RT 004", m: 1, s: 0, k: 1, p: 0 },
+        { n: "RT 005", m: 0, s: 0, k: 0, p: 0 },
+        { n: "RT 006", m: 0, s: 0, k: 0, p: 0 }
+    ];
+
+    const dataB = [
+        { n: "RT 007", m: 0, s: 0, k: 0, p: 0 },
+        { n: "RT 008", m: 0, s: 0, k: 0, p: 0 },
+        { n: "RT 009", m: 1, s: 1, k: 0, p: 1 },
+        { n: "RT 010", m: 1, s: 1, k: 0, p: 1 },
+        { n: "RT 011", m: 0, s: 0, k: 0, p: 0 },
+        { n: "RT 012", m: 0, s: 0, k: 0, p: 0 }
+    ];
+
+    function renderTable(data, targetId) {
+        const table = document.getElementById(targetId);
+        data.sort((a, b) => b.p - a.p);
+        table.innerHTML = data.map((t, i) => `
+            <tr>
+                <td>${i+1}</td>
+                <td class="t-left"><strong>${t.n}</strong></td>
+                <td>${t.m}</td>
+                <td>${t.s}</td>
+                <td>${t.k}</td>
+                <td class="pts-bold">${t.p}</td>
+            </tr>
+        `).join('');
+    }
+
+    function openTab(e, name) {
+        let x = document.getElementsByClassName("content-section");
+        for (let i = 0; i < x.length; i++) x[i].classList.remove("active");
+        let y = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < y.length; i++) y[i].classList.remove("active");
+        document.getElementById(name).classList.add("active");
+        e.currentTarget.classList.add("active");
+    }
+
+    window.onload = () => {
+        renderTable(dataA, 'tbody-a');
+        renderTable(dataB, 'tbody-b');
+    };
+</script>
+
+</body>
+</html>
