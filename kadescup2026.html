@@ -13,8 +13,7 @@
             --white: #ffffff;
             --group-a: #1e3a8a;
             --group-b: #b21f1f;
-            --success: #dcfce7; /* Warna hijau untuk zona lolos */
-            --success-text: #166534;
+            --success: #dcfce7;
         }
 
         body {
@@ -52,7 +51,6 @@
             font-size: 0.85rem;
         }
 
-        /* Navigasi Tab */
         .tabs {
             display: flex;
             background: #e2e8f0;
@@ -87,7 +85,6 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Tabel Klasemen */
         .group-header {
             color: white;
             padding: 12px 15px;
@@ -99,7 +96,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 0.9rem;
         }
 
@@ -108,39 +105,34 @@
         .t-left { text-align: left; }
         .pts-bold { font-weight: bold; color: var(--primary); }
 
-        /* Style Baris Peringkat 1 & 2 */
-        .lolos-zona {
-            background-color: var(--success) !important;
-            font-weight: 500;
-        }
+        .lolos-zona { background-color: var(--success) !important; }
 
-        /* Keterangan Tabel */
         .legend {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.8rem;
+            gap: 8px;
+            font-size: 0.75rem;
             margin-bottom: 25px;
+            color: #64748b;
             padding-left: 5px;
         }
 
         .box-success {
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             background-color: var(--success);
             border: 1px solid #bdf0cc;
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
-        /* Card Hasil & Jadwal */
-        .match-box {
+        .match-card {
             border: 1px solid #e2e8f0;
             border-radius: 12px;
             margin-bottom: 20px;
             overflow: hidden;
         }
 
-        .match-box-header {
+        .match-card-header {
             padding: 10px;
             text-align: center;
             font-weight: bold;
@@ -148,19 +140,40 @@
             color: white;
         }
 
-        .match-item {
+        .match-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 20px 15px;
             border-bottom: 1px solid #f1f5f9;
         }
 
-        .team { width: 35%; font-weight: 600; }
-        .score-wrap {
+        .match-row:last-child { border-bottom: none; }
+
+        .team { width: 35%; font-weight: 600; font-size: 0.95rem; }
+        
+        /* Gaya untuk Waktu Pertandingan */
+        .time-badge {
+            background: #f1f5f9;
+            color: #1e3a8a;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .score-display {
             width: 30%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .score-box {
+            display: flex;
             align-items: center;
             gap: 5px;
         }
@@ -168,16 +181,18 @@
         .score-num {
             background: #1e293b;
             color: var(--accent);
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 4px;
             font-weight: bold;
+            font-family: monospace;
         }
 
-        /* Footer Informasi */
+        .vs-info { font-size: 0.75rem; color: #94a3b8; font-weight: bold; }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -186,11 +201,7 @@
             border-top: 1px solid #eee;
         }
 
-        .social-link {
-            color: #e1306c;
-            text-decoration: none;
-            font-weight: bold;
-        }
+        .social-link { color: #e1306c; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -198,8 +209,8 @@
 <div class="container">
     <header>
         <h1>KADES CUP 2026</h1>
-        <div class="location-info">📍 Lapangan Desa Cilangkara</div>
-        <p>Klasemen, Jadwal & Hasil Pertandingan Terupdate</p>
+        <div class="location-info">📍 ‎Desa Cilangkara, Kecamatan Serang Baru, Kabupaten Bekasi</div>
+        <p>Klasemen, Jadwal & Hasil Pertandingan</p>
     </header>
 
     <div class="tabs">
@@ -208,9 +219,7 @@
         <button class="tab-btn" onclick="openTab(event, 'hasil')">HASIL</button>
     </div>
 
-    <!-- TAB KLASEMEN -->
     <div id="klasemen" class="content-section active">
-        <!-- GRUP A -->
         <div class="group-header" style="background: var(--group-a)">GRUP A</div>
         <table>
             <thead>
@@ -218,19 +227,13 @@
                     <th>Pos</th>
                     <th class="t-left">Tim</th>
                     <th>M</th>
-                    <th>S</th>
-                    <th>K</th>
                     <th>Pts</th>
                 </tr>
             </thead>
             <tbody id="tbody-a"></tbody>
         </table>
-        <div class="legend">
-            <div class="box-success"></div>
-            <span>Peringkat 1 & 2 Lolos Semifinal</span>
-        </div>
+        <div class="legend"><div class="box-success"></div><span>Lolos Semifinal</span></div>
 
-        <!-- GRUP B -->
         <div class="group-header" style="background: var(--group-b)">GRUP B</div>
         <table>
             <thead>
@@ -238,43 +241,70 @@
                     <th>Pos</th>
                     <th class="t-left">Tim</th>
                     <th>M</th>
-                    <th>S</th>
-                    <th>K</th>
                     <th>Pts</th>
                 </tr>
             </thead>
             <tbody id="tbody-b"></tbody>
         </table>
-        <div class="legend">
-            <div class="box-success"></div>
-            <span>Peringkat 1 & 2 Lolos Semifinal</span>
-        </div>
+        <div class="legend"><div class="box-success"></div><span>Lolos Semifinal</span></div>
     </div>
 
-    <!-- TAB JADWAL (Sama seperti sebelumnya) -->
     <div id="jadwal" class="content-section">
-        <div class="match-box">
-            <div class="match-box-header" style="background: var(--group-a)">JADWAL GRUP A</div>
-            <div class="match-item">
+        <div class="match-card">
+            <div class="match-card-header" style="background: var(--group-a)">JADWAL GRUP A</div>
+            <div class="match-row">
                 <span class="team t-left">RT 001</span>
-                <span style="font-size: 0.8rem; color:#64748b">VS</span>
+                <div class="score-display">
+                    <span class="time-badge">15:30 WIB</span>
+                    <span class="vs-info">VS</span>
+                </div>
                 <span class="team" style="text-align:right">RT 002</span>
+            </div>
+        </div>
+
+        <div class="match-card">
+            <div class="match-card-header" style="background: var(--group-b)">JADWAL GRUP B</div>
+            <div class="match-row">
+                <span class="team t-left">RT 007</span>
+                <div class="score-display">
+                    <span class="time-badge">16:45 WIB</span>
+                    <span class="vs-info">VS</span>
+                </div>
+                <span class="team" style="text-align:right">RT 008</span>
             </div>
         </div>
     </div>
 
-    <!-- TAB HASIL (Sama seperti sebelumnya) -->
     <div id="hasil" class="content-section">
-        <div class="match-box">
-            <div class="match-box-header" style="background: var(--group-a)">HASIL TERBARU GRUP A</div>
-            <div class="match-item">
+        <div class="match-card">
+            <div class="match-card-header" style="background: var(--group-a)">HASIL GRUP A</div>
+            <div class="match-row">
                 <div class="team t-left">RT 003</div>
-                <div class="score-wrap">
-                    <div class="score-num">2</div>
-                    <span>-</span>
-                    <div class="score-num">0</div>
+                <div class="score-display">
+                    <span class="vs-info" style="margin-bottom:5px;">FT</span>
+                    <div class="score-box">
+                        <div class="score-num">2</div>
+                        <span class="vs-info">-</span>
+                        <div class="score-num">1</div>
+                    </div>
                 </div>
                 <div class="team" style="text-align:right">RT 004</div>
+            </div>
+        </div>
+
+        <div class="match-card">
+            <div class="match-card-header" style="background: var(--group-b)">HASIL GRUP B</div>
+            <div class="match-row">
+                <div class="team t-left">RT 009</div>
+                <div class="score-display">
+                    <span class="vs-info" style="margin-bottom:5px;">FT</span>
+                    <div class="score-box">
+                        <div class="score-num">0</div>
+                        <span class="vs-info">-</span>
+                        <div class="score-num">0</div>
+                    </div>
+                </div>
+                <div class="team" style="text-align:right">RT 010</div>
             </div>
         </div>
     </div>
@@ -287,45 +317,29 @@
 </div>
 
 <script>
-    // DATA TIM
-    const grA = [
-        { n: "RT 001", m: 0, s: 0, k: 0, p: 0 },
-        { n: "RT 002", m: 0, s: 0, k: 0, p: 0 },
-        { n: "RT 003", m: 1, s: 0, k: 0, p: 3 },
-        { n: "RT 004", m: 1, s: 0, k: 1, p: 0 },
-        { n: "RT 005", m: 0, s: 0, k: 0, p: 0 },
-        { n: "RT 006", m: 0, s: 0, k: 0, p: 0 }
+    const dataA = [
+        { n: "RT 001", m: 0, p: 0 }, { n: "RT 002", m: 0, p: 0 },
+        { n: "RT 003", m: 1, p: 3 }, { n: "RT 004", m: 1, p: 0 },
+        { n: "RT 005", m: 0, p: 0 }, { n: "RT 006", m: 0, p: 0 }
     ];
 
-    const grB = [
-        { n: "RT 007", m: 0, s: 0, k: 0, p: 0 },
-        { n: "RT 008", m: 0, s: 0, k: 0, p: 0 },
-        { n: "RT 009", m: 1, s: 1, k: 0, p: 1 },
-        { n: "RT 010", m: 1, s: 1, k: 0, p: 1 },
-        { n: "RT 011", m: 0, s: 0, k: 0, p: 0 },
-        { n: "RT 012", m: 0, s: 0, k: 0, p: 0 }
+    const dataB = [
+        { n: "RT 007", m: 0, p: 0 }, { n: "RT 008", m: 0, p: 0 },
+        { n: "RT 009", m: 1, p: 1 }, { n: "RT 010", m: 1, p: 1 },
+        { n: "RT 011", m: 0, p: 0 }, { n: "RT 012", m: 0, p: 0 }
     ];
 
-    function render(data, id) {
-        const el = document.getElementById(id);
-        // Urutkan berdasarkan poin
+    function render(data, target) {
+        const el = document.getElementById(target);
         data.sort((a, b) => b.p - a.p);
-        
-        el.innerHTML = data.map((t, i) => {
-            // Cek apakah posisi 1 atau 2 untuk tambah class 'lolos-zona'
-            const isLolos = i < 2 ? 'class="lolos-zona"' : '';
-            
-            return `
-                <tr ${isLolos}>
-                    <td>${i+1}</td>
-                    <td class="t-left"><strong>${t.n}</strong></td>
-                    <td>${t.m}</td>
-                    <td>${t.s}</td>
-                    <td>${t.k}</td>
-                    <td class="pts-bold">${t.p}</td>
-                </tr>
-            `;
-        }).join('');
+        el.innerHTML = data.map((t, i) => `
+            <tr ${i < 2 ? 'class="lolos-zona"' : ''}>
+                <td>${i+1}</td>
+                <td class="t-left"><strong>${t.n}</strong></td>
+                <td>${t.m}</td>
+                <td class="pts-bold">${t.p}</td>
+            </tr>
+        `).join('');
     }
 
     function openTab(e, name) {
@@ -338,8 +352,8 @@
     }
 
     window.onload = () => {
-        render(grA, 'tbody-a');
-        render(grB, 'tbody-b');
+        render(dataA, 'tbody-a');
+        render(dataB, 'tbody-b');
     };
 </script>
 
